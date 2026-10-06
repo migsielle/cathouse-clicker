@@ -69,21 +69,8 @@ function HousePage() {
   return (
     <main className={`relative min-h-[calc(100vh-80px)] ${house.accentBg} cursor-pointer select-none overflow-hidden`} onPointerDown={onClick}>
       <div className="relative mx-auto flex max-w-4xl flex-col items-center px-6 py-10 text-center">
-        <div className="relative">
-          <span className={`absolute -left-16 -top-6 -rotate-12 text-5xl animate-wiggle ${house.accentInk}`} style={{ animationDelay: "0.2s" }}>{house.cats[1]}</span>
-          <span className={`absolute -right-16 -top-4 rotate-12 text-5xl animate-wiggle ${house.accentInk}`} style={{ animationDelay: "0.6s" }}>{house.cats[2]}</span>
-          <span className={`absolute -left-20 top-14 rotate-6 text-4xl animate-wiggle ${house.accentInk}`} style={{ animationDelay: "1s" }}>{house.cats[3]}</span>
-          <span className={`absolute -right-20 top-16 -rotate-6 text-4xl animate-wiggle ${house.accentInk}`} style={{ animationDelay: "1.4s" }}>{house.cats[4]}</span>
-          <span className={`absolute left-10 -top-12 text-4xl animate-wiggle ${house.accentInk}`} style={{ animationDelay: "0.9s" }}>{house.cats[5]}</span>
-          <span className={`absolute right-10 -top-14 text-4xl animate-wiggle ${house.accentInk}`} style={{ animationDelay: "0.4s" }}>{house.cats[6]}</span>
-          <div className={`text-8xl animate-wiggle ${house.accentInk}`}>{house.emoji}</div>
-        </div>
+        <div className={`text-8xl animate-wiggle ${house.accentInk}`}>{house.emoji}</div>
         <h1 className={`mt-4 text-4xl font-bold ${house.accentInk}`}>{house.name}</h1>
-        <div className={`mt-2 flex gap-1 text-4xl ${house.accentInk}`}>
-          {house.cats.map((c, i) => (
-            <span key={i} className="animate-wiggle" style={{ animationDelay: `${i * 0.12}s` }}>{c}</span>
-          ))}
-        </div>
         <div key={bump} className={`mt-6 animate-bump font-display text-7xl font-bold sm:text-8xl ${house.accentInk}`}>
           {total.toLocaleString()}
         </div>

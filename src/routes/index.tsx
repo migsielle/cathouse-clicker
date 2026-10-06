@@ -28,11 +28,6 @@ function Index() {
             <span className={`text-6xl transition-transform group-hover:scale-110 ${h.accentInk}`}>{h.emoji}</span>
             <h2 className={`mt-4 text-2xl font-bold ${h.accentInk}`}>{h.name}</h2>
             <p className={`opacity-90 ${h.accentInk}`}>{h.tagline}</p>
-            <div className="mt-5 flex gap-1 text-3xl">
-              {h.cats.slice(0, 5).map((c, i) => (
-                <span key={i} className="animate-wiggle" style={{ animationDelay: `${i * 0.15}s` }}>{c}</span>
-              ))}
-            </div>
           </Link>
         ))}
       </div>
