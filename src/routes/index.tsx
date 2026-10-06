@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { HOUSES, scoresQuery } from "@/lib/houses";
+import { HOUSES } from "@/lib/houses";
 
 export const Route = createFileRoute("/")({
   head: () => ({

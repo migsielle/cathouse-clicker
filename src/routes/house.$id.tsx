@@ -1,8 +1,8 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { HOUSES, getHouse, scoresQuery, type HouseId } from "@/lib/houses";
+import { getHouse, scoresQuery, type HouseId } from "@/lib/houses";
 
 export const Route = createFileRoute("/house/$id")({
   loader: ({ params }) => {
@@ -67,24 +67,28 @@ function HousePage() {
   const total = (data?.[house.id] ?? 0) + pending;
 
   return (
-    <main className="relative min-h-[calc(100vh-80px)] cursor-pointer select-none overflow-hidden" onPointerDown={onClick}>
-      <div className="mx-auto flex max-w-4xl flex-col items-center px-6 py-10 text-center">
-        <div className="flex flex-wrap justify-center gap-2" onPointerDown={(e) => e.stopPropagation()}>
-          {HOUSES.map((h) => (
-            <Link key={h.id} to="/house/$id" params={{ id: h.id }}
-              className="rounded-full border-2 border-ink bg-card px-4 py-1.5 text-sm font-bold shadow-pop transition-transform hover:-translate-y-0.5"
-              activeProps={{ className: "!bg-primary !text-primary-foreground" }}>
-              {h.emoji} {h.name.replace(" House", "")}
-            </Link>
+    <main className={`relative min-h-[calc(100vh-80px)] ${house.accentBg} cursor-pointer select-none overflow-hidden`} onPointerDown={onClick}>
+      <div className="relative mx-auto flex max-w-4xl flex-col items-center px-6 py-10 text-center">
+        <div className="relative">
+          <span className={`absolute -left-16 -top-6 -rotate-12 text-5xl animate-wiggle ${house.accentInk}`} style={{ animationDelay: "0.2s" }}>{house.cats[1]}</span>
+          <span className={`absolute -right-16 -top-4 rotate-12 text-5xl animate-wiggle ${house.accentInk}`} style={{ animationDelay: "0.6s" }}>{house.cats[2]}</span>
+          <span className={`absolute -left-20 top-14 rotate-6 text-4xl animate-wiggle ${house.accentInk}`} style={{ animationDelay: "1s" }}>{house.cats[3]}</span>
+          <span className={`absolute -right-20 top-16 -rotate-6 text-4xl animate-wiggle ${house.accentInk}`} style={{ animationDelay: "1.4s" }}>{house.cats[4]}</span>
+          <span className={`absolute left-10 -top-12 text-4xl animate-wiggle ${house.accentInk}`} style={{ animationDelay: "0.9s" }}>{house.cats[5]}</span>
+          <span className={`absolute right-10 -top-14 text-4xl animate-wiggle ${house.accentInk}`} style={{ animationDelay: "0.4s" }}>{house.cats[6]}</span>
+          <div className={`text-8xl animate-wiggle ${house.accentInk}`}>{house.emoji}</div>
+        </div>
+        <h1 className={`mt-4 text-4xl font-bold ${house.accentInk}`}>{house.name}</h1>
+        <div className={`mt-2 flex gap-1 text-4xl ${house.accentInk}`}>
+          {house.cats.map((c, i) => (
+            <span key={i} className="animate-wiggle" style={{ animationDelay: `${i * 0.12}s` }}>{c}</span>
           ))}
         </div>
-        <div className="mt-14 text-8xl animate-wiggle">{house.emoji}</div>
-        <h1 className="mt-4 text-4xl font-bold">{house.name}</h1>
-        <div key={bump} className="mt-6 animate-bump font-display text-7xl font-bold text-primary sm:text-8xl">
+        <div key={bump} className={`mt-6 animate-bump font-display text-7xl font-bold sm:text-8xl ${house.accentInk}`}>
           {total.toLocaleString()}
         </div>
-        <p className="font-bold text-muted-foreground">total house clicks</p>
-        <div className="card-pop mt-10 px-8 py-6">
+        <p className={`font-bold ${house.accentInk}`}>total house clicks</p>
+        <div className={`card-pop mt-10 px-8 py-6`}>
           <p className="text-lg font-bold">Click anywhere! 🐾</p>
           <p className="text-muted-foreground">Your clicks this visit: <b className="text-foreground">{mine}</b></p>
         </div>
