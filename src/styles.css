@@ -98,7 +98,7 @@
   --ink: oklch(0.2 0.015 50);
   --house-white: oklch(0.975 0.008 90);
   --house-white-ink: oklch(0.38 0.02 80);
-  --house-black: oklch(0.26 0.02 280);
+  --house-black: oklch(0.35 0.03 280);
   --house-black-ink: oklch(0.97 0.008 90);
   --house-orange: oklch(0.82 0.14 62);
   --house-orange-ink: oklch(0.42 0.13 50);
