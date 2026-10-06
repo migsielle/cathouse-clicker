@@ -1,24 +1,43 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { HOUSES, scoresQuery } from "@/lib/houses";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Cat Clicker — Pick Your Cat House" },
+      { name: "description", content: "Choose a cat house and click away your stress. Every click pops a cat!" },
+      { property: "og:title", content: "Cat Clicker — Pick Your Cat House" },
+      { property: "og:description", content: "Choose a cat house and click away your stress." },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const { data } = useQuery(scoresQuery);
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main className="mx-auto max-w-5xl px-6 py-12">
+      <div className="text-center">
+        <div className="text-6xl animate-wiggle inline-block">🐾</div>
+        <h1 className="mt-4 text-5xl font-bold sm:text-6xl">Click away your stress</h1>
+        <p className="mt-3 text-lg text-muted-foreground">Pick a cat house, then click as much as you like. Every click counts for your house!</p>
+      </div>
+      <div className="mt-12 grid gap-6 sm:grid-cols-2">
+        {HOUSES.map((h) => (
+          <Link key={h.id} to="/house/$id" params={{ id: h.id }}
+            className={`card-pop ${h.tone} group p-6 transition-transform hover:-translate-y-1 hover:shadow-pop-lg`}>
+            <div className="flex items-start justify-between">
+              <span className="text-6xl transition-transform group-hover:scale-110">{h.emoji}</span>
+              <span className="rounded-full border-2 border-ink bg-card px-3 py-1 text-sm font-bold text-foreground">
+                {(data?.[h.id] ?? 0).toLocaleString()} clicks
+              </span>
+            </div>
+            <h2 className="mt-6 text-2xl font-bold">{h.name}</h2>
+            <p className="opacity-80">{h.tagline}</p>
+          </Link>
+        ))}
+      </div>
+    </main>
   );
 }

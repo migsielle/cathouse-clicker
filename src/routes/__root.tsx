@@ -78,11 +78,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Cat Clicker" },
+      { name: "description", content: "A cute cat clicker to melt your stress away." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
@@ -92,6 +89,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
@@ -121,6 +120,15 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+      <header className="sticky top-0 z-40 border-b-3 border-ink bg-background/90 backdrop-blur">
+        <div className="mx-auto flex h-20 max-w-5xl items-center justify-between px-6">
+          <Link to="/" className="font-display text-2xl font-bold">🐾 Cat<span className="text-primary">Clicker</span></Link>
+          <nav className="flex gap-2 font-bold">
+            <Link to="/" className="rounded-full px-4 py-2" activeOptions={{ exact: true }} activeProps={{ className: "bg-secondary" }}>Houses</Link>
+            <Link to="/scoreboard" className="rounded-full border-2 border-ink bg-primary px-4 py-2 text-primary-foreground shadow-pop">🏆 Scoreboard</Link>
+          </nav>
+        </div>
+      </header>
       <Outlet />
     </QueryClientProvider>
   );
