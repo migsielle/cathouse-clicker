@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { HOUSES, scoresQuery } from "@/lib/houses";
+import { HOUSES } from "@/lib/houses";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -15,7 +14,6 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const { data } = useQuery(scoresQuery);
   return (
     <main className="mx-auto max-w-5xl px-6 py-12">
       <div className="text-center">
@@ -26,15 +24,15 @@ function Index() {
       <div className="mt-12 grid gap-6 sm:grid-cols-2">
         {HOUSES.map((h) => (
           <Link key={h.id} to="/house/$id" params={{ id: h.id }}
-            className={`card-pop ${h.tone} group p-6 transition-transform hover:-translate-y-1 hover:shadow-pop-lg`}>
-            <div className="flex items-start justify-between">
-              <span className="text-6xl transition-transform group-hover:scale-110">{h.emoji}</span>
-              <span className="rounded-full border-2 border-ink bg-card px-3 py-1 text-sm font-bold text-foreground">
-                {(data?.[h.id] ?? 0).toLocaleString()} clicks
-              </span>
+            className={`card-pop ${h.accentBg} group relative overflow-hidden p-6 transition-transform hover:-translate-y-1 hover:shadow-pop-lg`}>
+            <span className={`text-6xl transition-transform group-hover:scale-110 ${h.accentInk}`}>{h.emoji}</span>
+            <h2 className={`mt-4 text-2xl font-bold ${h.accentInk}`}>{h.name}</h2>
+            <p className={`opacity-90 ${h.accentInk}`}>{h.tagline}</p>
+            <div className="mt-5 flex gap-1 text-3xl">
+              {h.cats.slice(0, 5).map((c, i) => (
+                <span key={i} className="animate-wiggle" style={{ animationDelay: `${i * 0.15}s` }}>{c}</span>
+              ))}
             </div>
-            <h2 className="mt-6 text-2xl font-bold">{h.name}</h2>
-            <p className="opacity-80">{h.tagline}</p>
           </Link>
         ))}
       </div>
