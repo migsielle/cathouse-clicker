@@ -55,7 +55,7 @@ function HousePage() {
 
   const onClick = (ev: React.PointerEvent) => {
     const id = nextId.current++;
-    const e = house.pops[Math.floor(Math.random() * house.pops.length)];
+    const e = house.pops[Math.floor(Math.random() * house.pops.length)] ?? "🐱";
     setPops((p) => [...p.slice(-40), { id, x: ev.clientX, y: ev.clientY, e, r: Math.random() * 40 - 20 }]);
     setTimeout(() => setPops((p) => p.filter((x) => x.id !== id)), 900);
     pendingRef.current++;
