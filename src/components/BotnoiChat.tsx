@@ -26,7 +26,7 @@ const BADGE_CSS = `
   .bn-badge:focus-visible { box-shadow: 0 0 0 3px ${THEME_PRIMARY}, 4px 4px 0 ${THEME_INK}; }
   .bn-badge[aria-expanded="true"] { background: ${THEME_PRIMARY}; }
   .bn-logo { width: 82%; filter: saturate(1.15) hue-rotate(-8deg); }
-  .bn-panel { bottom: 76px; border: 3px solid ${THEME_INK}; border-radius: 1.5rem; box-shadow: 6px 6px 0 ${THEME_INK}; }
+  .bn-panel { bottom: 76px; }
 `;
 
 type BNInstance = { shadow: ShadowRoot | null };
