@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { BotnoiChat } from "../components/BotnoiChat";
 
 function NotFoundComponent() {
   return (
@@ -130,6 +131,7 @@ function RootComponent() {
         </div>
       </header>
       <Outlet />
+      <BotnoiChat />
     </QueryClientProvider>
   );
 }
