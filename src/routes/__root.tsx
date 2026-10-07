@@ -12,7 +12,6 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { BotnoiChat } from "../components/BotnoiChat";
 
 function NotFoundComponent() {
   return (
@@ -83,7 +82,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "A cute cat clicker to melt your stress away." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
@@ -131,7 +129,6 @@ function RootComponent() {
         </div>
       </header>
       <Outlet />
-      <BotnoiChat />
     </QueryClientProvider>
   );
 }

@@ -1,28 +1,68 @@
 # Cat Clicker Haven
 
-ต้องการสร้า่ง web app สำหรับให้เข้ามา click คลายเครียด
+A cat house clicker game with a shared leaderboard. Each buyer connects the app to their own Supabase project; this repository does not include the seller's database credentials.
 
-โดยธีมคือแมว พอเข้ามา user จะสามารถเลือกได้ว่าจะอยู่บ้านแมวอะไร มีแมวขาว แมวดำ แมวส้ม และแมวสามสี จากนั้นก็จะเข้ามาเป็นเพจของบ้านแมวนั้น ๆ user จะ click ได้เรื่อย ๆ ตรง cursor ก็จะขึ้นเป็นอิโมจิแมวทุกครั้งที่คลิก โดยเว็บก็จะนับจำนวนคลิกรวมกันของบ้านนั้น นับแยกบ้าน  ตรงหน้านี้สามารถกดเปลี่ยนบ้านได้ตลอด 
+## Requirements
 
-จะมีหน้า scoreboard สำหรับแสดง CatHouse Score ซึ่งจะเป็น leader board แสดงแรงค์และจำนวนคลื๊กรวมของบ้านนั้น
+- Node.js and npm
+- A Supabase account and project
+- Supabase CLI
 
-This project was built with [Lovable](https://lovable.dev).
+## Set up your Supabase project
 
-## Build with Lovable
+1. Install the app dependencies:
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/c0adac2e-454f-4bc2-921e-fea237a06b2f).
+   ```sh
+   npm install
+   ```
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+2. Create a Supabase project. In **Project Settings > API Keys**, copy its Project URL and publishable key.
 
-## Development
+3. Copy `.env.example` to `.env` and fill in your values:
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+   ```dotenv
+   VITE_SUPABASE_URL=https://your-project-ref.supabase.co
+   VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_your_key
+   ```
+
+   The publishable key is intended for browser use. Never put a secret key or service role key in a `VITE_` variable or browser code.
+
+4. Sign in with the Supabase CLI, link your project, and apply the database migration:
+
+   ```sh
+   supabase login
+   supabase link --project-ref your-project-ref
+   supabase db push
+   ```
+
+   The migration creates the `house_clicks` table, enables Row Level Security, allows public score reads, and adds the `add_clicks` RPC used by the game.
+
+5. Start the development server:
+
+   ```sh
+   npm run dev
+   ```
+
+## Deploy
+
+Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` in your hosting provider's environment settings before building, then run:
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+npm run build
 ```
+
+Vite embeds these values in the built frontend. Set them for each deployment environment and rebuild after changing them.
+
+## How score persistence works
+
+House totals are stored in the connected Supabase database. The app loads the totals from Supabase and sends click batches to the database while you play, so totals remain after a page refresh and are shared by everyone using that same Supabase project.
+
+The app currently requires a working Supabase connection. Removing `.env` does not convert it to offline mode: a development server that was already running may still have the old settings loaded, and a deployed build may contain its own settings. Restart the development server after changing environment variables. Without a valid Supabase project, score reads and writes will fail until the app is configured again.
+
+## Security and limitations
+
+- Keep `.env` and Supabase CLI state private. `.env.example` contains placeholders only.
+- The leaderboard is public and unauthenticated. Anyone can call the score RPC, up to 200 clicks per request, and repeat requests or automate them. This is suitable for a casual game or demo, not prizes or trusted competition scores.
+- Add authentication and server-side rate limiting before using the leaderboard for a public service or any competition. Do not rely on browser-side click limits.
+- The functions in `supabase/functions` are separate endpoints that use the service role key on the server. The app currently calls Supabase directly, so those functions do not need to be deployed for the core game.
+- Source code delivery does not define reuse rights by itself. The seller should specify the license and support terms separately.
